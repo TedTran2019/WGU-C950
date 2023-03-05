@@ -11,6 +11,7 @@ class Package:
         self.status = 'HUB'
         self.delivery_time = None
         self.delivery_truck = None
+        self.delayed_until = None
 
     # package_id already unique, so it works perfectly as a hash
     def __hash__(self):
