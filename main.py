@@ -3,7 +3,10 @@ from csv_parser import RoutingProgramCSVParser
 
 class WgupsRoutingProgram:
     def __init__(self):
-        print('WGU Routing Program initialized')
+        print('WGUPS Routing Program initialized')
+
+    def run(self):
+        print('Hi bye')
 
 
 DISTANCE_TABLE_PATH = 'assets/distance_table.csv'
