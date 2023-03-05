@@ -1,3 +1,6 @@
+import config
+
+
 class Package:
     def __init__(self, package_id, address, city, state, zip, deadline, mass, notes):
         self.package_id = int(package_id)
@@ -5,10 +8,11 @@ class Package:
         self.city = city
         self.state = state
         self.zip = zip
-        self.deadline = deadline
+        self.deadline = deadline if deadline == 'EOD' else config.parse_time(
+            deadline)
         self.mass = mass
         self.notes = notes
-        self.status = 'HUB'
+        self.status = 'at the hub'
         self.delivery_time = None
         self.delivery_truck = None
         self.delayed_until = None
@@ -18,8 +22,16 @@ class Package:
         return self.package_id
 
     def __str__(self):
-        return f'Package {self.package_id}'
-        # return f'Package {self.package_id} {self.address} {self.city} {self.state} {self.zip} {self.deadline} {self.mass} {self.notes} {self.status} {self.delivery_time} {self.delivery_truck}'
+        string = f'Package {self.package_id} is {self.status}'
+        if self.status == 'delivered':
+            string += f' at {self.delivery_time} by truck {self.delivery_truck} to {self.address}'
+        elif self.status == 'en route':
+            string += f' by truck {self.delivery_truck} to {self.address}'
+        elif self.delayed_until != None and self.delayed_until >= config.CURRENT_TIME:
+            string += f' and delayed until {self.delayed_until}'
+        if self.deadline != 'EOD':
+            string += f' with a deadline of {self.deadline}'
+        return string
 
 
-STATUSES = ['HUB', 'TRUCK', 'DELIVERED']
+STATUSES = ['at the hub', 'en route', 'delivered']

@@ -32,6 +32,8 @@ class PackageManager:
     # Packages start out ordered by package ID
     # 2/33, 4/40, 5/37/38, 7/29, 8/9/30, 13/39, 15/16/34, 20/21, 25/26, 27/35, 31/32
     # Ideally, these packages should always be together (same address = bundle together)
+    # [0, 20, 21, 21, 21, 26, 24, 24, 22, 10, 23, 3, 13, 14, 15, 15, 18, 18, 5, 11, 9, 9, 2, 2, 25, 19, 19, 19, 8, 12, 12, 12, 6, 6, 1, 1, 7, 16, 4, 17, 17, 0]
+    # Is the optimal path for 40 packages if there were no requirements
     def preliminary_loading(self):
         remaining_packages = []
         for package in self.packages:

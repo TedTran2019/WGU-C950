@@ -32,9 +32,10 @@ class RoutingGraph:
 
         # Starts from hub and returns to hub; when actually utilizing the results,
         # abandon the truck once all packages are delivered
-    def two_opt(self, addresses):
-        tour = [0] + [self.lookup(address) for address in addresses]
-        tour.append(0)
+    def two_opt(self, addresses, starting_index=0):
+        tour = [starting_index] + \
+            [self.lookup(address) for address in addresses]
+        tour.append(starting_index)
         n = len(tour)
         min_tour_distance = self.tour_distance(tour)
         improved = True
