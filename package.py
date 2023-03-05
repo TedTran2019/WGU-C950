@@ -17,8 +17,8 @@ class Package:
         return self.package_id
 
     def __str__(self):
-        # return f'Package {self.package_id}'
-        return f'Package {self.package_id} {self.address} {self.city} {self.state} {self.zip} {self.deadline} {self.mass} {self.notes} {self.status} {self.delivery_time} {self.delivery_truck}'
+        return f'Package {self.package_id}'
+        # return f'Package {self.package_id} {self.address} {self.city} {self.state} {self.zip} {self.deadline} {self.mass} {self.notes} {self.status} {self.delivery_time} {self.delivery_truck}'
 
 
 STATUSES = ['HUB', 'TRUCK', 'DELIVERED']

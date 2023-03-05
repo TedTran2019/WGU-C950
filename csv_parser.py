@@ -1,4 +1,3 @@
-from hashmap import Hashmap
 from package import Package
 
 
@@ -10,9 +9,9 @@ class RoutingProgramCSVParser:
         with open(self.file_path, 'r', encoding='utf-8-sig') as f:
             content = f.read()
             lines = self.split_string(content, '\n')
-            if self.file_path == 'package_file.csv':
+            if self.file_path.endswith('package_file.csv'):
                 return self.parse_package_file(lines)
-            elif self.file_path == 'distance_table.csv':
+            elif self.file_path.endswith('distance_table.csv'):
                 return self.parse_distance_table(lines)
             else:
                 raise Exception('Invalid file path')
