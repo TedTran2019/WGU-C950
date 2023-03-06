@@ -46,4 +46,4 @@ class Truck:
                 package.delivery_time = time
 
     def calculate_time_elapsed_in_minutes(self, distance):
-        return round(distance / self.speed * 60)
+        return distance / self.speed * 60
