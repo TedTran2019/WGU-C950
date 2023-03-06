@@ -45,7 +45,7 @@ class PackageManager:
                     # Can still be loaded onto truck before 10:20, just can't be delivered until then
                     package.delayed_until = '10:20'
                     package.address = PACKAGE_9_ADDRESS
-                    self.truck_3_packages.append(package)
+                    # self.truck_3_packages.append(package)
                 elif package.package_id in [6, 25, 28, 32]:
                     package.delayed_until = '9:05'
                     self.truck_3_packages.append(package)
@@ -60,6 +60,7 @@ class PackageManager:
     # 1, 2, 4, 7, 29, 33, 40
     #  27, 35
     # 10, 11, 12, 17, 22, 23, 24
+    # 8/9
     def manual_loading(self):
         remaining_packages = []
         for package in self.packages:
@@ -67,7 +68,7 @@ class PackageManager:
                 self.truck_1_packages.append(package)
             elif package.package_id in [5, 37]:
                 self.truck_2_packages.append(package)
-            elif package.package_id in [8, 26, 30, 31]:
+            elif package.package_id in [26, 30, 31]:
                 self.truck_3_packages.append(package)
             else:
                 remaining_packages.append(package)

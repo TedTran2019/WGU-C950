@@ -40,6 +40,7 @@ class WgupsRoutingProgram:
         self.package_manager.load_truck(truck, time)
         addresses = [package.address for package in truck.packages]
         route = self.routing_graph.two_opt(addresses)
+        print(route)
         miles_to_hub, time_to_hub = truck.deliver_packages(
             route, self.routing_graph, time)
         return miles_to_hub, time_to_hub
