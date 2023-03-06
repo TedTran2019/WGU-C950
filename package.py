@@ -15,6 +15,7 @@ class Package:
         self.delivery_time = None
         self.delivery_truck = None
         self.delayed_until = None
+        self.loaded_at = None
 
     # package_id already unique, so it works perfectly as a hash
     def __hash__(self):
@@ -38,7 +39,7 @@ class Package:
         self = self.delivery_time
 
     def status(self):
-        if self.delivery_truck == None:
+        if config.CURRENT_TIME < self.loaded_at:
             return STATUSES[0]
         elif config.CURRENT_TIME >= self.delivery_time:
             return STATUSES[2]

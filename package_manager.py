@@ -53,5 +53,16 @@ class PackageManager:
                 remaining_packages.append(package)
         self.packages = remaining_packages
 
-    def load_truck(self, truck):
+    def load_truck(self, truck, time):
         truck.packages = self.packages
+        for package in self.packages:
+            package.delivery_truck = truck.truck_id
+            package.loaded_at = time
+        # if truck.truck_id == 1:
+        #     self.load_truck_1(time)
+        # elif truck.truck_id == 2:
+        #     self.load_truck_2(time)
+        # elif truck.truck_id == 3:
+        #     self.load_truck_3(time)
+        # else:
+        #     print('Invalid truck ID')

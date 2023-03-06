@@ -23,8 +23,9 @@ class WgupsRoutingProgram:
         addresses = [package.address for package in self.packages]
         all_orders = self.routing_graph.two_opt(addresses)
         print(all_orders)
-        self.trucks[0].packages = self.packages
+        self.package_manager.load_truck(self.trucks[0], config.CURRENT_TIME)
         self.trucks[0].deliver_packages(all_orders, self.routing_graph)
+        self.report()
         config.increment_global_time(500)
         self.report()
 
