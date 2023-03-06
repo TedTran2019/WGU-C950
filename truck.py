@@ -6,14 +6,13 @@ class Truck:
     def __init__(self, truck_id, capacity=16, speed=18):
         self.truck_id = truck_id
         self.start_time = None
-        self.end_time = None
         self.packages = []
         self.capacity = capacity
         self.speed = speed
         self.mileage = 0
 
     def __str__(self):
-        return f'Truck {self.truck_id} has travelled {round(self.mileage, 2)} miles'
+        return f'Truck {self.truck_id} has travelled {round(self.current_mileage(), 2)} miles'
 
     # address -> array of packages
     def setup_package_hashmap(self):
@@ -48,8 +47,19 @@ class Truck:
             order_list[-2], order_list[-1])
         time_to_hub = config.increment_time(
             time, self.calculate_time_elapsed_in_minutes(miles_to_hub))
-        print(time_to_hub)
         return miles_to_hub, time_to_hub
 
     def calculate_time_elapsed_in_minutes(self, distance):
         return distance / self.speed * 60
+
+    def current_mileage(self):
+        if self.start_time == None or config.CURRENT_TIME <= self.start_time:
+            return 0
+
+        time_elapsed = config.subtract_times(
+            config.CURRENT_TIME, self.start_time)
+        distance = self.speed * time_elapsed.seconds / 3600
+        if distance >= self.mileage:
+            return self.mileage
+        else:
+            return distance

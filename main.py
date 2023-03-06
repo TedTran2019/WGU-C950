@@ -21,8 +21,20 @@ class WgupsRoutingProgram:
         print('WGUPS Routing Program initialized')
 
     def run(self):
-        config.increment_global_time(400)
-        self.report()
+        while True:
+            print(
+                'Enter time in this format: 12:12 AM to see the status of all trucks/packages at that time!')
+            print('Enter "exit" to quit the program')
+            user_input = input('Enter time: ')
+            if user_input == 'exit':
+                print('Exiting program...')
+                break
+            try:
+                time = config.parse_time(user_input)
+                config.set_global_time(time)
+                self.report()
+            except ValueError:
+                print('Invalid time format, please try again! [HH:MM AM/PM]')
 
     def deliver_packages(self):
         miles1, time1 = self.deliver(self.trucks[0], config.CURRENT_TIME)
@@ -41,7 +53,6 @@ class WgupsRoutingProgram:
         self.package_manager.load_truck(truck, time)
         addresses = [package.address for package in truck.packages]
         route = self.routing_graph.two_opt(addresses)
-        print(route)
         miles_to_hub, time_to_hub = truck.deliver_packages(
             route, self.routing_graph, time)
         return miles_to_hub, time_to_hub
@@ -49,7 +60,7 @@ class WgupsRoutingProgram:
     def total_truck_mileage(self):
         total_mileage = 0
         for truck in self.trucks:
-            total_mileage += truck.mileage
+            total_mileage += truck.current_mileage()
         return round(total_mileage, 2)
 
     def report(self):

@@ -15,3 +15,12 @@ def increment_time(time, minutes_added):
 def increment_global_time(minutes):
     global CURRENT_TIME
     CURRENT_TIME = increment_time(CURRENT_TIME, minutes)
+
+
+def set_global_time(time):
+    global CURRENT_TIME
+    CURRENT_TIME = time
+
+
+def subtract_times(time1, time2):
+    return (datetime.combine(datetime.min, time1) - datetime.combine(datetime.min, time2))
