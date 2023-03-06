@@ -22,6 +22,8 @@ class Package:
         return self.package_id
 
     def __str__(self):
+        if self.delivery_time == None or self.loaded_at == None:
+            return "Package not loaded"
         string = f'Package {self.package_id} is {self.status()}'
         if config.CURRENT_TIME < self.loaded_at:
             string += ' and is waiting to be loaded onto a truck'

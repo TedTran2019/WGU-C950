@@ -57,21 +57,24 @@ class PackageManager:
                 remaining_packages.append(package)
         self.packages = remaining_packages
 
+    # 1, 2, 4, 7, 29, 33, 40
+    #  27, 35
+    # 10, 11, 12, 17, 22, 23, 24
     def manual_loading(self):
         remaining_packages = []
         for package in self.packages:
-            if package.package_id in [21, 34, 39, 1, 2, 4, 7, 29, 33, 40]:
+            if package.package_id in [21, 34, 39]:
                 self.truck_1_packages.append(package)
-            elif package.package_id in [5, 37, 27, 35]:
+            elif package.package_id in [5, 37]:
                 self.truck_2_packages.append(package)
-            elif package.package_id in [8, 26, 30, 31, 10, 11, 12, 17, 22, 23, 24]:
+            elif package.package_id in [8, 26, 30, 31]:
                 self.truck_3_packages.append(package)
             else:
                 remaining_packages.append(package)
         self.packages = remaining_packages
-        if remaining_packages:
-            raise Exception(
-                f'Not all packages were loaded, {len(remaining_packages)} remaining')
+        # if remaining_packages:
+        # raise Exception(
+        # f'Not all packages were loaded, {len(remaining_packages)} remaining')
 
     def load_truck(self, truck, time):
         truck.packages = self.get_truck_packages(truck)

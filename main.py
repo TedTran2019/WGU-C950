@@ -17,27 +17,43 @@ class WgupsRoutingProgram:
         target_addresses, matrix = RoutingProgramCSVParser(
             DISTANCE_TABLE_PATH).parse()
         self.routing_graph = RoutingGraph(matrix, target_addresses)
+        self.deliver_packages()
         print('WGUPS Routing Program initialized')
 
     def run(self):
-        addresses = [package.address for package in self.packages]
-        all_orders = self.routing_graph.two_opt(addresses)
-        print(all_orders)
-        # self.package_manager.load_truck(self.trucks[0], config.CURRENT_TIME)
-        # self.trucks[0].deliver_packages(all_orders, self.routing_graph)
-        # self.report()
-        # config.increment_global_time(500)
-        # self.report()
+        config.increment_global_time(500)
+        self.report()
+
+    def deliver_packages(self):
+        miles1, time1 = self.deliver(self.trucks[0], config.CURRENT_TIME)
+        miles2, time2 = self.deliver(self.trucks[1], config.CURRENT_TIME)
+        truck_3_start_time = None
+        if time1 <= time2:
+            truck_3_start_time = time1
+            self.trucks[0].mileage += miles1
+        else:
+            truck_3_start_time = time2
+            self.trucks[1].mileage += miles2
+        self.deliver(self.trucks[2], truck_3_start_time)
+
+    def deliver(self, truck, time):
+        self.package_manager.load_truck(truck, time)
+        addresses = [package.address for package in truck.packages]
+        route = self.routing_graph.two_opt(addresses)
+        miles_to_hub, time_to_hub = truck.deliver_packages(
+            route, self.routing_graph, time)
+        return miles_to_hub, time_to_hub
 
     def total_truck_mileage(self):
         total_mileage = 0
         for truck in self.trucks:
             total_mileage += truck.mileage
-        return total_mileage
+        return round(total_mileage, 2)
 
     def report(self):
         print(f'Current time is {config.CURRENT_TIME}')
-        print('Total mileage for all trucks: ', self.total_truck_mileage())
+        print(
+            f'Total mileage for all trucks: {self.total_truck_mileage()} miles')
         for truck in self.trucks:
             print(truck)
         for package in self.packages:

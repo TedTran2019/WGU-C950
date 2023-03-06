@@ -8,13 +8,12 @@ class Truck:
         self.start_time = None
         self.end_time = None
         self.packages = []
-        self.current_location = 'HUB'
         self.capacity = capacity
         self.speed = speed
         self.mileage = 0
 
     def __str__(self):
-        return f'Truck {self.truck_id} is at {self.current_location} having travelled {self.mileage} miles'
+        return f'Truck {self.truck_id} has travelled {round(self.mileage, 2)} miles'
 
     # address -> array of packages
     def setup_package_hashmap(self):
@@ -26,13 +25,13 @@ class Truck:
                 package_hashmap[package.address] = [package]
         return package_hashmap
 
-    def deliver_packages(self, order_list, routing_graph):
+    def deliver_packages(self, order_list, routing_graph, start_time):
         if not self.packages:
             print('No packages to deliver')
             return
 
-        self.start_time = config.CURRENT_TIME
-        time = config.CURRENT_TIME
+        self.start_time = start_time
+        time = start_time
         package_hashmap = self.setup_package_hashmap()
         for i in range(1, len(order_list) - 1):
             current_address = order_list[i - 1]
@@ -44,6 +43,13 @@ class Truck:
             self.mileage += distance
             for package in package_hashmap[routing_graph.vertices[target_address]]:
                 package.delivery_time = time
+
+        miles_to_hub = routing_graph.get_distance(
+            order_list[-2], order_list[-1])
+        time_to_hub = config.increment_time(
+            time, self.calculate_time_elapsed_in_minutes(miles_to_hub))
+        print(time_to_hub)
+        return miles_to_hub, time_to_hub
 
     def calculate_time_elapsed_in_minutes(self, distance):
         return distance / self.speed * 60
