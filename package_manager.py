@@ -45,7 +45,7 @@ class PackageManager:
                     # Can still be loaded onto truck before 10:20, just can't be delivered until then
                     package.delayed_until = '10:20'
                     package.address = PACKAGE_9_ADDRESS
-                    # self.truck_3_packages.append(package)
+                    self.truck_2_packages.append(package)
                 elif package.package_id in [6, 25, 28, 32]:
                     package.delayed_until = '9:05'
                     self.truck_3_packages.append(package)
@@ -57,25 +57,26 @@ class PackageManager:
                 remaining_packages.append(package)
         self.packages = remaining_packages
 
-    # 1, 2, 4, 7, 29, 33, 40
-    #  27, 35
-    # 10, 11, 12, 17, 22, 23, 24
-    # 8/9
+    # I put all the related addresses together (besides 37, because it has a deadline on truck 2 (slow truck))
+    # I send off the trucks in this order: truck 1 (8 am), truck 3 (9:05 am), truck 2 (whenever a truck returns to hub)
+    # truck 1 consists of: [13, 14, 15, 16, 19, 20, 21, 34, 39, 1, 2, 4, 7, 29, 33, 40] (16 packages)
+    # truck 2 consists of: [9, 3, 18, 36, 38, 5, 8, 30, 10, 11, 12, 17, 22, 23, 24] (15 packages)
+    # truck 3 consists of: [6, 25, 28, 32, 26, 31, 27, 35, 37] (9 packages)
     def manual_loading(self):
         remaining_packages = []
         for package in self.packages:
-            if package.package_id in [21, 34, 39]:
+            if package.package_id in [21, 34, 39, 1, 2, 4, 7, 29, 33, 40]:
                 self.truck_1_packages.append(package)
-            elif package.package_id in [5, 37]:
+            elif package.package_id in [5, 8, 30, 10, 11, 12, 17, 22, 23, 24]:
                 self.truck_2_packages.append(package)
-            elif package.package_id in [26, 30, 31]:
+            elif package.package_id in [26, 31, 27, 35, 37]:
                 self.truck_3_packages.append(package)
             else:
                 remaining_packages.append(package)
         self.packages = remaining_packages
-        # if remaining_packages:
-        # raise Exception(
-        # f'Not all packages were loaded, {len(remaining_packages)} remaining')
+        if remaining_packages:
+            raise Exception(
+                f'Not all packages were loaded, {len(remaining_packages)} remaining')
 
     def load_truck(self, truck, time):
         truck.packages = self.get_truck_packages(truck)

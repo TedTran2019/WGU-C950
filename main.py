@@ -21,20 +21,21 @@ class WgupsRoutingProgram:
         print('WGUPS Routing Program initialized')
 
     def run(self):
-        config.increment_global_time(500)
+        config.increment_global_time(400)
         self.report()
 
     def deliver_packages(self):
         miles1, time1 = self.deliver(self.trucks[0], config.CURRENT_TIME)
-        miles2, time2 = self.deliver(self.trucks[1], config.CURRENT_TIME)
-        truck_3_start_time = None
-        if time1 <= time2:
-            truck_3_start_time = time1
+        miles3, time3 = self.deliver(
+            self.trucks[2], config.parse_time('9:05 AM'))
+        truck_2_start_time = None
+        if time1 <= time3:
+            truck_2_start_time = time1
             self.trucks[0].mileage += miles1
         else:
-            truck_3_start_time = time2
-            self.trucks[1].mileage += miles2
-        self.deliver(self.trucks[2], truck_3_start_time)
+            truck_2_start_time = time3
+            self.trucks[2].mileage += miles3
+        self.deliver(self.trucks[1], truck_2_start_time)
 
     def deliver(self, truck, time):
         self.package_manager.load_truck(truck, time)
