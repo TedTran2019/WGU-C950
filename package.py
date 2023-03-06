@@ -12,7 +12,6 @@ class Package:
             deadline)
         self.mass = mass
         self.notes = notes
-        self.status = 'at the hub'
         self.delivery_time = None
         self.delivery_truck = None
         self.delayed_until = None
@@ -22,7 +21,7 @@ class Package:
         return self.package_id
 
     def __str__(self):
-        string = f'Package {self.package_id} is {self.status}'
+        string = f'Package {self.package_id} is {self.status()}'
         if self.delivery_truck == None:
             string += ' and is waiting to be loaded onto a truck'
         elif self.delivery_time >= config.CURRENT_TIME:
@@ -37,6 +36,14 @@ class Package:
 
     def deliver(self, delivery_time):
         self = self.delivery_time
+
+    def status(self):
+        if self.delivery_truck == None:
+            return STATUSES[0]
+        elif config.CURRENT_TIME >= self.delivery_time:
+            return STATUSES[2]
+        elif config.CURRENT_TIME < self.delivery_time:
+            return STATUSES[1]
 
 
 STATUSES = ['at the hub', 'en route', 'delivered']

@@ -25,6 +25,7 @@ class WgupsRoutingProgram:
         print(all_orders)
         self.trucks[0].packages = self.packages
         self.trucks[0].deliver_packages(all_orders, self.routing_graph)
+        config.increment_global_time(500)
         self.report()
 
     def total_truck_mileage(self):
@@ -40,7 +41,6 @@ class WgupsRoutingProgram:
             print(truck)
         for package in self.packages:
             print(package)
-            print(package.delivery_time)
 
 
 WgupsRoutingProgram().run()
