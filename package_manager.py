@@ -57,19 +57,19 @@ class PackageManager:
                 remaining_packages.append(package)
         self.packages = remaining_packages
 
-    # I put all the related addresses together (besides 37, because it has a deadline on truck 2 (slow truck))
+    # I put all the related addresses together (besides 37 and 30, because it has a deadline on truck 2 (slow truck))
     # I send off the trucks in this order: truck 1 (8 am), truck 3 (9:05 am), truck 2 (whenever a truck returns to hub)
     # truck 1 consists of: [13, 14, 15, 16, 19, 20, 21, 34, 39, 1, 2, 4, 7, 29, 33, 40] (16 packages)
-    # truck 2 consists of: [9, 3, 18, 36, 38, 5, 8, 30, 10, 11, 12, 17, 22, 23, 24] (15 packages)
-    # truck 3 consists of: [6, 25, 28, 32, 26, 31, 27, 35, 37] (9 packages)
+    # truck 2 consists of: [9, 3, 18, 36, 38, 5, 8, 10, 11, 12, 17, 22, 23, 24] (14 packages)
+    # truck 3 consists of: [6, 25, 28, 32, 26, 31, 27, 35, 37, 30] (10 packages)
     def manual_loading(self):
         remaining_packages = []
         for package in self.packages:
             if package.package_id in [21, 34, 39, 1, 2, 4, 7, 29, 33, 40]:
                 self.truck_1_packages.append(package)
-            elif package.package_id in [5, 8, 30, 10, 11, 12, 17, 22, 23, 24]:
+            elif package.package_id in [5, 8, 10, 11, 12, 17, 22, 23, 24]:
                 self.truck_2_packages.append(package)
-            elif package.package_id in [26, 31, 27, 35, 37]:
+            elif package.package_id in [26, 31, 27, 35, 37, 30]:
                 self.truck_3_packages.append(package)
             else:
                 remaining_packages.append(package)
