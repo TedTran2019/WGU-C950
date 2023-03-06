@@ -2,7 +2,6 @@ from hashmap import Hashmap
 
 
 # Graph represented by an adjacency matrix
-# Just takes in the underlying data structure and does necesssary operations on it
 class RoutingGraph:
     def __init__(self, distance_matrix, vertices):
         self.matrix = distance_matrix

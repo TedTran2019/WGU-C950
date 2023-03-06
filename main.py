@@ -3,6 +3,7 @@ from truck import Truck
 from routing_graph import RoutingGraph
 from package_manager import PackageManager
 import config
+from hashmap import Hashmap
 
 DISTANCE_TABLE_PATH = 'assets/distance_table.csv'
 PACKAGE_FILE_PATH = 'assets/package_file.csv'
@@ -19,16 +20,12 @@ class WgupsRoutingProgram:
         print('WGUPS Routing Program initialized')
 
     def run(self):
-        # Testing with all packages before doing each truck individually
         addresses = [package.address for package in self.packages]
         all_orders = self.routing_graph.two_opt(addresses)
-        # print(all_orders)
-        # self.report()
-        print(config.CURRENT_TIME)
-        config.increment_global_time(5)
-        print(config.CURRENT_TIME)
-        # self.report()
-        # self.deliver_packages(all_orders)
+        print(all_orders)
+        self.trucks[0].packages = self.packages
+        self.trucks[0].deliver_packages(all_orders, self.routing_graph)
+        self.report()
 
     def total_truck_mileage(self):
         total_mileage = 0
@@ -37,12 +34,13 @@ class WgupsRoutingProgram:
         return total_mileage
 
     def report(self):
-        print(f'Current time is {CURRENT_TIME}')
+        print(f'Current time is {config.CURRENT_TIME}')
         print('Total mileage for all trucks: ', self.total_truck_mileage())
         for truck in self.trucks:
             print(truck)
         for package in self.packages:
             print(package)
+            print(package.delivery_time)
 
 
 WgupsRoutingProgram().run()

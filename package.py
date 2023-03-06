@@ -23,15 +23,20 @@ class Package:
 
     def __str__(self):
         string = f'Package {self.package_id} is {self.status}'
-        if self.status == 'delivered':
+        if self.delivery_truck == None:
+            string += ' and is waiting to be loaded onto a truck'
+        elif self.delivery_time >= config.CURRENT_TIME:
             string += f' at {self.delivery_time} by truck {self.delivery_truck} to {self.address}'
-        elif self.status == 'en route':
+        elif self.delivery_time < config.CURRENT_TIME:
             string += f' by truck {self.delivery_truck} to {self.address}'
         elif self.delayed_until != None and self.delayed_until >= config.CURRENT_TIME:
             string += f' and delayed until {self.delayed_until}'
         if self.deadline != 'EOD':
             string += f' with a deadline of {self.deadline}'
         return string
+
+    def deliver(self, delivery_time):
+        self = self.delivery_time
 
 
 STATUSES = ['at the hub', 'en route', 'delivered']
