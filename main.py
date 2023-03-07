@@ -32,16 +32,20 @@ class WgupsRoutingProgram:
     def package_information(self, package_id):
         package = self.package_hashmap[package_id]
         if package == None:
-            print(f'Package with ID {package_id} not found')
+            print(f'\nPackage with ID {package_id} not found\n')
             return
-        print(f'Package ID: {package.package_id}')
+        print(f'\nPackage ID: {package.package_id}')
         print(f'Address: {package.address}')
-        print(f'Delivery deadline: {package.delivery_deadline}')
+        print(f'Delivery deadline: {package.deadline}')
         print(f'City: {package.city}')
-        print(f'Zip code: {package.zip_code}')
-        print(f'Weight: {package.weight} kilos')
+        print(f'Zip code: {package.zip}')
+        print(f'Weight: {package.mass} kilos')
         print(f'Notes: {package.notes}')
-        print(f'Delivery Status: {package.status()}')
+        delivery_string = f'Delivery Status: {package.status()}'
+        if package.status() == 'delivered':
+            delivery_string += f' at {package.delivery_time}'
+        print(delivery_string)
+        print()
 
     def run(self):
         while True:
@@ -61,18 +65,21 @@ class WgupsRoutingProgram:
                 print('Invalid time format, please try again! [HH:MM AM/PM]')
 
     def set_choice(self):
-        print('Enter 1 to see the status of all trucks/packages')
-        print('Enter 2 to see all the information for a specific package')
         while True:
+            print('Enter 1 to see the status of all trucks/packages')
+            print('Enter 2 to see all the information for a specific package')
             choice = input('Enter choice: ')
             if choice == '1':
                 self.report()
                 break
             elif choice == '2':
-                print('Enter the package ID')
-                package_id = input('Enter ID: ')
-                self.package_information(package_id)
-                break
+                try:
+                    print('Enter the package ID')
+                    package_id = int(input('Enter ID: '))
+                    self.package_information(package_id)
+                    break
+                except ValueError:
+                    print('Invalid package ID, please try again!')
             else:
                 print('Invalid choice, please try again!')
 
@@ -104,13 +111,14 @@ class WgupsRoutingProgram:
         return round(total_mileage, 2)
 
     def report(self):
-        print(f'Current time is {config.CURRENT_TIME}')
+        print(f'\nCurrent time is {config.CURRENT_TIME}')
         print(
             f'Total mileage for all trucks: {self.total_truck_mileage()} miles')
         for truck in self.trucks:
             print(truck)
         for package in self.packages:
             print(package)
+        print()
 
 
 WgupsRoutingProgram().run()
