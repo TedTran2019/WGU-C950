@@ -1,11 +1,33 @@
 #  Ted Tran 010534644
 # __init__ calls deliver_packages which calls deliver which calls two_opt, so it's O(n^2) time and O(n) space
 # create_package_hashmap is O(n) time and O(n) space
-# run and set_choice are O(N) time and O(1) space, if user input is the input considered
+# run and set_choice are O(N * P) time and O(1) space, where N is user input and P is number of packages/trucks
 # deliver_packages and deliver, like __init__ are O(n^2) time and O(n) space
 # total_truck_mileage is O(n) time and O(1) space
 # package_information is O(1) time and O(1) space
 # report is O(n) time and O(1) space
+
+"""
+Program flow flow outline: 
+1. The program begins by preparing the data for the simulation.
+   a. Initializes trucks
+   b. Parses package data from CSV file into a list of package objects
+   c. Parses distance table from CSV file into a list of target addresses and a matrix of distances
+   d. The package manager sorts the packages into lists of packages that need to be delivered by each truck
+   e. The list of target addresses and matrix of distances are used to create a routing graph
+2. Packages are "delivered" aka all package have delivery_time set
+   a. truck 1 starts at 8:00 AM, truck 3 starts at 9:05 AM, truck 2 starts whenever a truck returns to hub
+       How is this done?
+       1. The package manager loads a truck with the packages it needs to deliver (which sets the package's loading_time and delivery_truck)
+       2. The addresses of these packages are passed to the routing graph to get the order in which the packages should be delivered
+       3. The trucks deliver the packages in the order specified by the routing graph, setting delivery_time for each package and distance_traveled for the truck
+3. The package_hashmap is created to allow for quick lookup of packages by ID
+   a. The list of packages is iterated through, setting each package_id as the key and the package as the value
+4. The simulation is run after steps 1-3 finish preparing the necessary data
+   a. The user can set the desired time to view truck/package information at
+   b. Then the user can choose to view the status of all trucks/packages, or enter a package ID to view the status of a specific package 
+   c. Certain components of package data are dynamically displayed based on the set time, delivery time, and loading time
+"""
 
 from csv_parser import RoutingProgramCSVParser
 from truck import Truck
