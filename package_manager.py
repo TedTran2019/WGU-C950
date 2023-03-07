@@ -47,19 +47,18 @@ class PackageManager:
     def preliminary_loading(self):
         remaining_packages = []
         for package in self.packages:
-            if package.package_id in [3, 6, 9, 13, 14, 15, 16, 18, 19, 20, 25, 28, 32, 36, 38]:
-                if package.package_id == 9:
-                    # Can still be loaded onto truck before 10:20, just can't be delivered until then
-                    package.delayed_until = '10:20'
-                    package.address = PACKAGE_9_ADDRESS
-                    self.truck_2_packages.append(package)
-                elif package.package_id in [6, 25, 28, 32]:
-                    package.delayed_until = '9:05'
-                    self.truck_3_packages.append(package)
-                elif package.package_id in [3, 18, 36, 38]:
-                    self.truck_2_packages.append(package)
-                elif package.package_id in [13, 14, 15, 16, 19, 20]:
-                    self.truck_1_packages.append(package)
+            if package.package_id == 9:
+                # Can still be loaded onto truck before 10:20, just can't be delivered until then
+                package.delayed_until = '10:20'
+                package.address = PACKAGE_9_ADDRESS
+                self.truck_2_packages.append(package)
+            elif package.package_id in [6, 25, 28, 32]:
+                package.delayed_until = '9:05'
+                self.truck_3_packages.append(package)
+            elif package.package_id in [3, 18, 36, 38]:
+                self.truck_2_packages.append(package)
+            elif package.package_id in [13, 14, 15, 16, 19, 20]:
+                self.truck_1_packages.append(package)
             else:
                 remaining_packages.append(package)
         self.packages = remaining_packages
