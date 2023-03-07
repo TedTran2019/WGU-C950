@@ -1,11 +1,18 @@
-# Handles loading of packages into trucks
-# 3 trucks, 2 drivers
+# preliminary loading is a O(n) time complexity with a large constant and O(n) space complexity
+# manual loading is a O(n) time complexity with a large constant and O(n) space complexity
+# get_truck_packages is O(1) time complexity and O(1) space complexity
+# set_packages is O(n) time and o(1) space
+# load truck is O(n) time due to using set_packages and simply o(1) space
+# check_packages isn't used by the program-- it was made by me to see which package addresses were invalid
+
 from routing_graph import RoutingGraph
 from csv_parser import RoutingProgramCSVParser
 
 PACKAGE_9_ADDRESS = '410 S State St'
 
 
+# Handles loading of packages into trucks
+# 3 trucks, 2 drivers
 class PackageManager:
     def __init__(self, packages):
         self.packages = packages

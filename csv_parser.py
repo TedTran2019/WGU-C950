@@ -1,3 +1,8 @@
+# Parse is the main method, with all the others being helper methods
+# parse is O(n) time complexity and O(n) space complexity
+# split_string is O(n) time complexity and O(n) space complexity
+# parse_package_file is O(n) time complexity and O(n) space complexity
+# parse_distance_table is O(n) time complexity and O(n) space complexity
 from package import Package
 
 

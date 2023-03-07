@@ -1,3 +1,5 @@
+# Package is O(1) time complexity and O(1) space complexity for all methods
+
 import config
 
 

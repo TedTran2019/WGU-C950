@@ -1,3 +1,7 @@
+# two_opt is O(n^2) time and O(n) space
+# create_lookup is O(n) time and O(n) space
+# tour_distance is O(n) time and O(1) space
+# Everything else is O(1) time and O(1) space
 from hashmap import Hashmap
 
 

@@ -1,3 +1,6 @@
+# Get is O(1) time complexity and O(1) space complexity
+# Set is O(1) time complexity and O(1) space complexity
+# Delete is O(1) time complexity and O(1) space complexity
 class Hashmap:
     def __init__(self, num_buckets=8):
         self.store = [[] for _ in range(num_buckets)]

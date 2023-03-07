@@ -1,3 +1,7 @@
+# setup_package_hashmap is O(n) time complexity and O(n) space complexity
+# deliver packages is O(n) time complexity and O(n) space complexity
+# Everything else is O(1) time complexity and O(1) space complexity
+
 import config
 from hashmap import Hashmap
 

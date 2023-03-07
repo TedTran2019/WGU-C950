@@ -1,3 +1,4 @@
+# Every method here is O(1) time complexity and O(1) space complexity
 from datetime import datetime, time, timedelta
 
 CURRENT_TIME = time(hour=8)

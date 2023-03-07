@@ -1,4 +1,11 @@
 #  Ted Tran 010534644
+# __init__ calls deliver_packages which calls deliver which calls two_opt, so it's O(n^2) time and O(n) space
+# create_package_hashmap is O(n) time and O(n) space
+# run and set_choice are O(N) time and O(1) space, if user input is the input considered
+# deliver_packages and deliver, like __init__ are O(n^2) time and O(n) space
+# total_truck_mileage is O(n) time and O(1) space
+# package_information is O(1) time and O(1) space
+# report is O(n) time and O(1) space
 
 from csv_parser import RoutingProgramCSVParser
 from truck import Truck
