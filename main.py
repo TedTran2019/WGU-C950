@@ -20,13 +20,35 @@ class WgupsRoutingProgram:
             DISTANCE_TABLE_PATH).parse()
         self.routing_graph = RoutingGraph(matrix, target_addresses)
         self.deliver_packages()
+        self.package_hashmap = self.create_package_hashmap(self.packages)
         print('WGUPS Routing Program initialized')
+
+    def create_package_hashmap(self, packages):
+        package_hashmap = Hashmap()
+        for package in packages:
+            package_hashmap[package.package_id] = package
+        return package_hashmap
+
+    def package_information(self, package_id):
+        package = self.package_hashmap[package_id]
+        if package == None:
+            print(f'Package with ID {package_id} not found')
+            return
+        print(f'Package ID: {package.package_id}')
+        print(f'Address: {package.address}')
+        print(f'Delivery deadline: {package.delivery_deadline}')
+        print(f'City: {package.city}')
+        print(f'Zip code: {package.zip_code}')
+        print(f'Weight: {package.weight} kilos')
+        print(f'Notes: {package.notes}')
+        print(f'Delivery Status: {package.status()}')
 
     def run(self):
         while True:
             print(
-                'Enter time in this format: 12:12 AM to see the status of all trucks/packages at that time!')
-            print('Enter "exit" to quit the program')
+                'Enter time in this format: 12:12 AM to set the desired time')
+            print(
+                'Enter "exit" to quit the program')
             user_input = input('Enter time: ')
             if user_input == 'exit':
                 print('Exiting program...')
@@ -34,9 +56,25 @@ class WgupsRoutingProgram:
             try:
                 time = config.parse_time(user_input)
                 config.set_global_time(time)
-                self.report()
+                self.set_choice()
             except ValueError:
                 print('Invalid time format, please try again! [HH:MM AM/PM]')
+
+    def set_choice(self):
+        print('Enter 1 to see the status of all trucks/packages')
+        print('Enter 2 to see all the information for a specific package')
+        while True:
+            choice = input('Enter choice: ')
+            if choice == '1':
+                self.report()
+                break
+            elif choice == '2':
+                print('Enter the package ID')
+                package_id = input('Enter ID: ')
+                self.package_information(package_id)
+                break
+            else:
+                print('Invalid choice, please try again!')
 
     def deliver_packages(self):
         miles1, time1 = self.deliver(self.trucks[0], config.CURRENT_TIME)
