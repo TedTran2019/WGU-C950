@@ -10,6 +10,7 @@ class RoutingProgramCSVParser:
     def __init__(self, file_path=None):
         self.file_path = file_path
 
+    # The main method, it parses package_file.csv and distance_table.csv
     def parse(self):
         with open(self.file_path, 'r', encoding='utf-8-sig') as f:
             content = f.read()
@@ -38,6 +39,7 @@ class RoutingProgramCSVParser:
         lines.append(current_field.strip())
         return lines
 
+    # Parses package_file.csv to a list of packages
     def parse_package_file(self, lines):
         packages = []
         for line in lines[1:]:
@@ -45,6 +47,7 @@ class RoutingProgramCSVParser:
             packages.append(Package(*fields))
         return packages
 
+    # Parses distance_table.csv to a list of addresses and a matrix of distances
     def parse_distance_table(self, lines):
         target_addresses = []
         graph_matrix = []

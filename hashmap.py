@@ -6,6 +6,8 @@ class Hashmap:
         self.store = [[] for _ in range(num_buckets)]
         self.count = 0
 
+    # Given a key, returns the value.
+    # I aliased [] to get so you can do hashmap[key] to get the value
     def get(self, key):
         for k, value in self.__bucket(key):
             if key == k:
@@ -14,6 +16,9 @@ class Hashmap:
 
     __getitem__ = get
 
+    # Sets the value for a key.
+    # Aliases update and []= to set so you can do hashmap[key] = value or hashmap.update(key, value)
+    # Uses the private bucket method which returns the bucket for a key by hashing the key and modulo-ing it by the number of buckets
     def set(self, key, value):
         if self.count >= self.__num_buckets():
             self.__resize()
@@ -30,6 +35,7 @@ class Hashmap:
     __setitem__ = set
     update = set
 
+    # Deletes a key:value pair from the hashmap
     def delete(self, key):
         bucket = self.__bucket(key)
         for i, kv in enumerate(bucket):
@@ -42,6 +48,7 @@ class Hashmap:
 
     __delitem__ = delete
 
+    # Prints the hashmap
     def print(self):
         print("{ ", end="")
         for bucket in self.store:
@@ -52,6 +59,7 @@ class Hashmap:
     def __num_buckets(self):
         return len(self.store)
 
+    # Doubles the number of buckets and rehashes all the keys
     def __resize(self):
         doubled = self.__num_buckets() * 2
         resized = [[] for _ in range(doubled)]
@@ -60,5 +68,6 @@ class Hashmap:
                 resized[hash(key) % doubled].append((key, value))
         self.store = resized
 
+    # Returns the bucket for a key by hashing the key and modulo-ing it by the number of buckets
     def __bucket(self, key):
         return self.store[hash(key) % self.__num_buckets()]

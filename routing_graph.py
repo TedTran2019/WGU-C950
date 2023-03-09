@@ -12,29 +12,35 @@ class RoutingGraph:
         self.vertices = vertices
         self._lookup = self.create_lookup()
 
+    # Creates a hashmap of the vertices and their indices
     def create_lookup(self):
         lookup = Hashmap()
         for i in range(len(self.vertices)):
             lookup.set(self.vertices[i], i)
         return lookup
 
+    # Returns the index of the vertex (address)
     def lookup(self, input):
         return self._lookup[input]
 
+    # Returns the total distance between all vertices in the tour
     def tour_distance(self, tour):
         total_distance = 0
         for i in range(len(tour) - 1):
             total_distance += self.get_distance(tour[i], tour[i + 1])
         return total_distance
 
+    # Returns the distance between two addresses
     def get_distance_by_address(self, address1, address2):
         return self.matrix[self.lookup(address1)][self.lookup(address2)]
 
+    # Returns the distance between two indices
     def get_distance(self, index1, index2):
         return self.matrix[index1][index2]
 
-        # Starts from hub and returns to hub; when actually utilizing the results,
-        # abandon the truck once all packages are delivered
+    # Starts from hub and returns to hub; when actually utilizing the results,
+    # abandon the truck once all packages are delivered
+    # This is the 2-opt algorithm which swaps two edges in a tour repeatedly until no shorter tour can be found
     def two_opt(self, addresses, starting_index=0):
         tour = [starting_index] + \
             [self.lookup(address) for address in addresses]

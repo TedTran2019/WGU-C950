@@ -52,12 +52,14 @@ class WgupsRoutingProgram:
         self.package_hashmap = self.create_package_hashmap(self.packages)
         print('WGUPS Routing Program initialized')
 
+    # This creates a hashmap of packages with the package_id as the key and the package as the value
     def create_package_hashmap(self, packages):
         package_hashmap = Hashmap()
         for package in packages:
             package_hashmap[package.package_id] = package
         return package_hashmap
 
+    # This method returns all information for a package with the given package_id
     def package_information(self, package_id):
         package = self.package_hashmap[package_id]
         if package == None:
@@ -76,6 +78,7 @@ class WgupsRoutingProgram:
         print(delivery_string)
         print()
 
+    # A loop so the user can set the desired time and view truck/package information at that time
     def run(self):
         while True:
             print(
@@ -93,6 +96,7 @@ class WgupsRoutingProgram:
             except ValueError:
                 print('Invalid time format, please try again! [HH:MM AM/PM]')
 
+    # Allows the user to choose to see the status of all trucks/packages or the status of a specific package
     def set_choice(self):
         while True:
             print('Enter 1 to see the status of all trucks/packages')
@@ -112,6 +116,9 @@ class WgupsRoutingProgram:
             else:
                 print('Invalid choice, please try again!')
 
+    # This method has the 1st truck deliver packages at 8:00 AM
+    # The 3rd truck delivers packages at 9:05 AM
+    # The 2nd truck delivers packages whenever a truck returns to the hub
     def deliver_packages(self):
         miles1, time1 = self.deliver(self.trucks[0], config.CURRENT_TIME)
         miles3, time3 = self.deliver(
@@ -125,6 +132,7 @@ class WgupsRoutingProgram:
             self.trucks[2].mileage += miles3
         self.deliver(self.trucks[1], truck_2_start_time)
 
+    # This is a helper method that loads a truck, gets the route for the truck, and delivers the packages
     def deliver(self, truck, time):
         self.package_manager.load_truck(truck, time)
         addresses = [package.address for package in truck.packages]
@@ -133,12 +141,14 @@ class WgupsRoutingProgram:
             route, self.routing_graph, time)
         return miles_to_hub, time_to_hub
 
+    # This method returns the total mileage for all trucks
     def total_truck_mileage(self):
         total_mileage = 0
         for truck in self.trucks:
             total_mileage += truck.current_mileage()
         return round(total_mileage, 2)
 
+    # This method prints the current time, total mileage for all trucks, and the status of all trucks/packages at the current time
     def report(self):
         print(f'\nCurrent time is {config.CURRENT_TIME}')
         print(

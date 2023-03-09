@@ -23,6 +23,7 @@ class Package:
     def __hash__(self):
         return self.package_id
 
+    # Prints relevant information about the package if someone uses the print method on it
     def __str__(self):
         if self.delivery_time == None or self.loaded_at == None:
             return "Package not loaded"
@@ -39,9 +40,11 @@ class Package:
             string += f' with a deadline of {self.deadline}'
         return string
 
+    # Sets the delivery time for the package
     def deliver(self, delivery_time):
         self = self.delivery_time
 
+    # Sets the status of each truck based on the current time
     def status(self):
         if config.CURRENT_TIME < self.loaded_at:
             return STATUSES[0]

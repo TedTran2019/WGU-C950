@@ -15,10 +15,12 @@ class Truck:
         self.speed = speed
         self.mileage = 0
 
+    # Outputs the truck's id and current mileage when the prind method is called on it
     def __str__(self):
         return f'Truck {self.truck_id} has travelled {round(self.current_mileage(), 2)} miles'
 
     # address -> array of packages
+    # Creates a hashmap where the key is the address and the value is an array of packages
     def setup_package_hashmap(self):
         package_hashmap = Hashmap()
         for package in self.packages:
@@ -28,6 +30,10 @@ class Truck:
                 package_hashmap[package.address] = [package]
         return package_hashmap
 
+    # Given the route, routing_graph, and start_time
+    # It "delivers" all the packages by setting their delivery time
+    # Also updates the truck's mileage
+    # It returns the distance to the hub and the time to the hub, so the truck with the shorter path can return to hub
     def deliver_packages(self, order_list, routing_graph, start_time):
         if not self.packages:
             print('No packages to deliver')
@@ -53,9 +59,11 @@ class Truck:
             time, self.calculate_time_elapsed_in_minutes(miles_to_hub))
         return miles_to_hub, time_to_hub
 
+    # Calculates the time elapsed in minutes from distance travelled and truck speed
     def calculate_time_elapsed_in_minutes(self, distance):
         return distance / self.speed * 60
 
+    # Returns the current mileage of the truck based on current time
     def current_mileage(self):
         if self.start_time == None or config.CURRENT_TIME <= self.start_time:
             return 0

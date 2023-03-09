@@ -44,6 +44,7 @@ class PackageManager:
     # Ideally, these packages should always be together (same address = bundle together)
     # [0, 20, 21, 21, 21, 26, 24, 24, 22, 10, 23, 3, 13, 14, 15, 15, 18, 18, 5, 11, 9, 9, 2, 2, 25, 19, 19, 19, 8, 12, 12, 12, 6, 6, 1, 1, 7, 16, 4, 17, 17, 0]
     # Is the optimal path for 40 packages if there were no requirements
+    # loads all trucks with mandatory packages for each truck
     def preliminary_loading(self):
         remaining_packages = []
         for package in self.packages:
@@ -68,6 +69,7 @@ class PackageManager:
     # truck 1 consists of: [13, 14, 15, 16, 19, 20, 21, 34, 39, 1, 2, 4, 7, 29, 33, 40] (16 packages)
     # truck 2 consists of: [9, 3, 18, 36, 38, 5, 8, 10, 11, 12, 17, 22, 23, 24] (14 packages)
     # truck 3 consists of: [6, 25, 28, 32, 26, 31, 27, 35, 37, 30] (10 packages)
+    # loads the rest of the packages that weren't loaded with preliminary_loading into the trucks
     def manual_loading(self):
         remaining_packages = []
         for package in self.packages:
@@ -84,10 +86,12 @@ class PackageManager:
             raise Exception(
                 f'Not all packages were loaded, {len(remaining_packages)} remaining')
 
+    # Loads a truck with packages and sets the relevant package information
     def load_truck(self, truck, time):
         truck.packages = self.get_truck_packages(truck)
         self.set_packages(truck, time)
 
+    # Returns the list of packages for a given truck
     def get_truck_packages(self, truck):
         if truck.truck_id == 1:
             return self.truck_1_packages
@@ -98,6 +102,7 @@ class PackageManager:
         else:
             raise Exception('Invalid truck ID')
 
+    # Sets the delivery truck and loading time for each package
     def set_packages(self, truck, time):
         for package in truck.packages:
             package.delivery_truck = truck.truck_id
