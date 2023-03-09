@@ -25,20 +25,20 @@ class Package:
 
     # Prints relevant information about the package if someone uses the print method on it
     def __str__(self):
-        if self.delivery_time == None or self.loaded_at == None:
-            return "Package not loaded"
         string = f'Package {self.package_id} is {self.status()}'
-        if config.CURRENT_TIME < self.loaded_at:
+        full_info = f'\nID: {self.package_id}, Address: {self.address}, deadline: {self.deadline}, City: {self.city}, Zip: {self.zip}, Weight: {self.mass} kilos, Status: {self.status()}'
+        if self.loaded_at == None or config.CURRENT_TIME < self.loaded_at:
             string += ' and is waiting to be loaded onto a truck'
         elif config.CURRENT_TIME >= self.delivery_time:
             string += f' at {self.delivery_time} by truck {self.delivery_truck} to {self.address}'
+            full_info += f', Delivered: {self.delivery_time}'
         elif config.CURRENT_TIME < self.delivery_time:
             string += f' by truck {self.delivery_truck} to {self.address}'
         elif self.delayed_until != None and config.CURRENT_TIME < self.delayed_until:
             string += f' and delayed until {self.delayed_until}'
         if self.deadline != 'EOD':
             string += f' with a deadline of {self.deadline}'
-        return string
+        return string + full_info
 
     # Sets the delivery time for the package
     def deliver(self, delivery_time):
